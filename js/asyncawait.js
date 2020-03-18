@@ -3,7 +3,7 @@ const PEOPLE_URL = 'people/:id'
 
 const opts = { crossDomain:true } 
 
-function getCharacters(id){
+function getCharacter(id){
 
     return new Promise((resolve, reject) => { 
         const Url = `${API_URL}${PEOPLE_URL.replace(':id',id)}`
@@ -24,11 +24,17 @@ function onError(id){
 // })
 //.catch(onError)
 
-var ids = [1,2,3,4,5,6,7,8,9,10];
 
-var promesas = ids.map(id=> getCharacters(id));
+async function  getCharacters(){
 
- Promise //promesa que resuelve un array de promesas y tiene un .all . them .error 
- .all(promesas)
- .then(characters => console.log(characters))
- .catch(onError)
+var ids = [1,2,3,4,5,6,7,8,9,10]
+var promesas = ids.map(id=> getCharacter(id))
+try {
+    var characters = await Promise.all(promesas)
+    console.log(characters);
+ } catch (id) {
+    onError(id)
+ }
+ 
+}
+getCharacters()
